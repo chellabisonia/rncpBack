@@ -11,13 +11,13 @@ spring:
       pool-name: SpringBootBoilerplateHikariPool
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     open-in-view: false
   jta:
     enabled: false
 
 springdoc:
-  show-actuator: true
+  show-actuator: false
 
 management:
   endpoint:

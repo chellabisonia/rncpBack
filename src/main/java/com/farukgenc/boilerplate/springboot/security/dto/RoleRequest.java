@@ -1,6 +1,7 @@
 package com.farukgenc.boilerplate.springboot.security.dto;
 
 import com.farukgenc.boilerplate.springboot.model.enumeration.UserRole;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,16 +9,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AuthenticatedUserDto {
+public class RoleRequest {
 
-	private String firstname;
-
-	private String lastname;
-
-	private String username;
-
-	private String password;
-
-	private UserRole userRole;
+    @NotNull
+    private UserRole userRole;
 
 }

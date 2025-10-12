@@ -7,19 +7,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-/**
- * Created on Ağustos, 2020
- *
- * @author Faruk
- */
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 public class RegistrationRequest {
 
-	@NotEmpty(message = "{registration_name_not_empty}")
-	private String name;
+	@NotEmpty(message = "{registration_firstname_not_empty}")
+	private String firstname;
+
+	@NotEmpty(message = "{registration_lastname_not_empty}")
+	private String lastname;
 
 	@Email(message = "{registration_email_is_not_valid}")
 	@NotEmpty(message = "{registration_email_not_empty}")
