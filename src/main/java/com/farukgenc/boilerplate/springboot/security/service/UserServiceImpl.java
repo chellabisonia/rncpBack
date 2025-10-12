@@ -1,7 +1,9 @@
 package com.farukgenc.boilerplate.springboot.security.service;
 
-import com.farukgenc.boilerplate.springboot.model.User;
-import com.farukgenc.boilerplate.springboot.model.UserRole;
+import com.farukgenc.boilerplate.springboot.model.enumeration.UserRole;
+import com.farukgenc.boilerplate.springboot.model.user.Role;
+import com.farukgenc.boilerplate.springboot.model.user.User;
+import com.farukgenc.boilerplate.springboot.repository.RoleRepository;
 import com.farukgenc.boilerplate.springboot.repository.UserRepository;
 import com.farukgenc.boilerplate.springboot.security.dto.AuthenticatedUserDto;
 import com.farukgenc.boilerplate.springboot.security.dto.RegistrationRequest;
@@ -14,11 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-/**
- * Created on Ağustos, 2020
- *
- * @author Faruk
- */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -27,6 +24,8 @@ public class UserServiceImpl implements UserService {
 	private static final String REGISTRATION_SUCCESSFUL = "registration_successful";
 
 	private final UserRepository userRepository;
+
+	private final RoleRepository roleRepository;
 
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -40,6 +39,16 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findByUsername(username);
 	}
 
+	public void setUserRole(User user, UserRole userRole) {
+		if(user == null || userRole == null)
+			return;
+
+		Role role = roleRepository.findByUserRole(userRole)
+				.orElseThrow(() -> new IllegalStateException("Role not found: " + userRole));
+
+		user.addRole(role);
+	}
+
 	@Override
 	public RegistrationResponse registration(RegistrationRequest registrationRequest) {
 
@@ -47,7 +56,7 @@ public class UserServiceImpl implements UserService {
 
 		final User user = UserMapper.INSTANCE.convertToUser(registrationRequest);
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		user.setUserRole(UserRole.USER);
+		this.setUserRole(user, UserRole.USER);
 
 		userRepository.save(user);
 

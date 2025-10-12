@@ -1,6 +1,6 @@
 package com.farukgenc.boilerplate.springboot.security.service;
 
-import com.farukgenc.boilerplate.springboot.model.UserRole;
+import com.farukgenc.boilerplate.springboot.model.enumeration.UserRole;
 import com.farukgenc.boilerplate.springboot.security.dto.AuthenticatedUserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,11 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.Objects;
 
-/**
- * Created on Ağustos, 2020
- *
- * @author Faruk
- */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -31,6 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) {
 
+		log.info("Loading user by username : {}", username);
 		final AuthenticatedUserDto authenticatedUser = userService.findAuthenticatedUserByUsername(username);
 
 		if (Objects.isNull(authenticatedUser)) {
