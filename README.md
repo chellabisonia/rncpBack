@@ -1,7 +1,14 @@
-# Spring Boot Boilerplate
- *Spring Boot Boilerplate* is a **starter kit**. This project is a very simple and useful.
- 
-## Technologies 
+# 🏡 StayWithLocals-Backend
+
+---
+## 🚀 Introduction
+
+Ce projet constitue le backend de l’application Stay With Locals.
+Il est basé sur un boilerplate Spring Boot permettant de démarrer rapidement une architecture sécurisée et modulaire.
+
+---
+
+## 🛠️Stack technique
 - Spring Boot (v3.5.6)
 - Spring Data JPA
 - Spring Validation
@@ -11,36 +18,22 @@
 - Lombok
 - Swagger (Open API)
 
-## Customization
+---
 
-- You can customize ```token information (secret key, issuer, expiry date) ``` in [*application.yml*](https://github.com/Genc/spring-boot-boilerplate/blob/master/src/main/resources/application.yml#L40) file.
-- You can customize ```database connection information``` in [*application.yml*](https://github.com/Genc/spring-boot-boilerplate/blob/master/src/main/resources/application.yml#L3) file.
-- You can customize ```swagger information``` in [*application.yml*](https://github.com/Genc/spring-boot-boilerplate/blob/master/src/main/resources/application.yml#L45) file.
-- You can customize ```which endpoints are accessible without token information``` in [*SecurityConfiguration.java*](https://github.com/Genc/spring-boot-boilerplate/blob/master/src/main/java/com/farukgenc/boilerplate/springboot/configuration/SecurityConfiguration.java#L45) file.
+## 📥 Lancement du projet
 
-## Run the Application
+1. Démarrer la base de données et l'application
+```bash
+docker compose -f local-docker-compose.yml up --build
+```
+2. Compiler le projet
+Depuis la racine du projet:
+```bash
+mvn clean install
+```
 
-First you need to make sure that the database is up. 
-If you're using Docker, you can use ```docker compose up -d``` command. (If you have made changes in local, you should use the *local-docker-compose* file.)
 
-Navigate to the root of the project. For building the project using command line, run below command :
 
-``` mvn clean install```
 
-Run service in command line. Navigate to *target* directory. 
-
-``` java -jar spring-boot-boilerplate.jar ```
-
-## Postman Collection
-
-- [You can access the Postman collection here and you can try it after you get the project up and running.](https://www.postman.com/postmanfaruk/workspace/faruk-genc-projects/collection/11439300-3d0317df-f217-40ff-a2a6-4eaaf66e1c55?action=share&creator=11439300)
-
-### Others
-
- - [For Angular]
- 
-### License
-
-Apache License 2.0
-
-   [For Angular]: <https://github.com/Genc/angular-boilerplate>
+   ### 📜 Licence
+📝 Ce projet est sous licence MIT.
