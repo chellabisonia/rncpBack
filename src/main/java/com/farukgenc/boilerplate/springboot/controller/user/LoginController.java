@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/login")
+@RequestMapping("/api")
 public class LoginController {
 
 	private final JwtTokenService jwtTokenService;
 
-	@PostMapping
+	@PostMapping("/login")
 	@Operation(tags = "Login Service", description = "You must log in with the correct information to successfully obtain the token information.")
 	public ResponseEntity<LoginResponse> loginRequest(@Valid @RequestBody LoginRequest loginRequest) {
 

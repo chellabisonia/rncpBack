@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/register")
+@RequestMapping("/api")
 public class RegistrationController {
 
 	private final UserService userService;
 
-	@PostMapping
+	@PostMapping("/register")
 	@Operation(tags = "Register Service", description = "You can register to the system by sending information in the appropriate format.")
 	public ResponseEntity<RegistrationResponse> registrationRequest(@Valid @RequestBody RegistrationRequest registrationRequest) {
 

@@ -6,13 +6,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.http.HttpMethod;
 
 
 @Configuration
@@ -20,7 +21,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
 
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
 	private final JwtAuthenticationEntryPoint unauthorizedHandler;
 
 	@Bean
@@ -30,27 +30,26 @@ public class SecurityConfiguration {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-		//@formatter:off
-
 		return http
 				.csrf(CsrfConfigurer::disable)
-				.cors(CorsConfigurer::disable)
+				// ✅ ACTIVER CORS pour que CorsConfigurationSource soit utilisée
+				.cors(Customizer.withDefaults())
+				.sessionManagement(m -> m.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.exceptionHandling(h -> h.authenticationEntryPoint(unauthorizedHandler))
+				.authorizeHttpRequests(auth -> auth
+						// ✅ Laisser passer les pré-requêtes CORS (OPTIONS) sans auth
+						.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+						.requestMatchers(
+								"/api/register",
+								"/api/login",
+								"/v3/api-docs/**",
+								"/swagger-ui/**",
+								"/swagger-ui.html",
+								"/actuator/**"
+						).permitAll()
+						.anyRequest().authenticated()
+				)
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-				.authorizeHttpRequests(request -> request.requestMatchers("/register",
-																	      "/login",
-																	      "/v3/api-docs/**",
-																          "/swagger-ui/**",
-																	      "/swagger-ui.html",
-																	      "/actuator/**")
-													   .permitAll()
-													   .anyRequest()
-													   .authenticated())
-				.sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.exceptionHandling(handler -> handler.authenticationEntryPoint(unauthorizedHandler))
 				.build();
-
-		//@formatter:on
 	}
-
 }
